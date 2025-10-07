@@ -15,7 +15,10 @@ public class ClienteService : IClienteService
 
     public List<Cliente> ObterTodos()
     {
-        return _clienteRepository.ObterTodos().Where(c => c.Ativo).ToList();
+        return _clienteRepository
+            .ObterTodos()
+            .Where(c => c.Ativo)
+            .ToList();
     }
 
     public Cliente? ObterPorId(int id)
