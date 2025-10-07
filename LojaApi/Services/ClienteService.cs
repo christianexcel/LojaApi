@@ -1,4 +1,3 @@
-using System;
 using LojaApi.Entities;
 using LojaApi.Repositories.Interfaces;
 using LojaAPI.Services.Interfaces;

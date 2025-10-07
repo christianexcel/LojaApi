@@ -1,5 +1,3 @@
-using System;
-
 namespace LojaApi.Entities
 {
     // A classe que representa o nosso recurso 

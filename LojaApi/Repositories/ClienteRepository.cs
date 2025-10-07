@@ -22,7 +22,7 @@ namespace LojaApi.Repositories
         {
             return _clientes;
         }
- 
+
         // 2. Read (Ler por ID) 
         public Cliente? ObterPorId(int id)
         {
