@@ -9,10 +9,10 @@ public class ProdutoRepository : IProdutoRepository
 
     private List<Produto> _produtos = new List<Produto>
     {
-        new Produto { Id = 1, Descricao = "Laranja", Valor = 1.59m, Estoque = 1000.00m },
-        new Produto { Id = 2, Descricao = "Sabonete", Valor = 2.50m, Estoque = 500.00m },
-        new Produto { Id = 3, Descricao = "Biscoito", Valor = 3.50m, Estoque = 3.00m },
-        new Produto { Id = 4, Descricao = "Bombom Lacta", Valor = 15.00m, Estoque = 99.00m }
+        new Produto { Id = 1, Descricao = "Laranja", Valor = 1.59m, Estoque = 1000.00m, Ativo = true },
+        new Produto { Id = 2, Descricao = "Sabonete", Valor = 2.50m, Estoque = 500.00m, Ativo = true },
+        new Produto { Id = 3, Descricao = "Biscoito", Valor = 3.50m, Estoque = 3.00m, Ativo = true },
+        new Produto { Id = 4, Descricao = "Bombom Lacta", Valor = 15.00m, Estoque = 99.00m, Ativo = true }
     };
 
     public List<Produto> ObterTodos()
@@ -44,6 +44,7 @@ public class ProdutoRepository : IProdutoRepository
         produtoExistente.Descricao = produtoAtualizado.Descricao;
         produtoExistente.Valor = produtoAtualizado.Valor;
         produtoExistente.Estoque = produtoAtualizado.Estoque;
+        produtoExistente.Ativo = produtoAtualizado.Ativo;
 
         return produtoExistente;
     }
