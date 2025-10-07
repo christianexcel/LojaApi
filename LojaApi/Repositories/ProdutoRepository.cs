@@ -5,7 +5,7 @@ namespace LojaApi.Repositories;
 
 public class ProdutoRepository : IProdutoRepository
 {
-    private int _nextId = 2;
+    private int _nextId = 5;
 
     private List<Produto> _produtos = new List<Produto>
     {
