@@ -8,4 +8,5 @@ public class Produto
     public string Descricao { get; set; } = String.Empty;
     public Decimal Valor { get; set; } = Decimal.Zero;
     public Decimal Estoque { get; set; } = Decimal.Zero;
+    public bool Ativo { get; set; }
 }

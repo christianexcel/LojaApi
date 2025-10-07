@@ -1,8 +1,19 @@
+using LojaApi.Repositories;
+using LojaApi.Repositories.Interfaces;
+using LojaApi.Services;
+using LojaAPI.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddSingleton<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

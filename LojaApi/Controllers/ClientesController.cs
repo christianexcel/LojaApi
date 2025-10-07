@@ -1,5 +1,6 @@
 using LojaApi.Entities; 
-using LojaApi.Repositories; 
+using LojaApi.Repositories;
+using LojaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc; 
  
 namespace LojaApi.Controllers 
@@ -8,6 +9,12 @@ namespace LojaApi.Controllers
     [Route("api/[controller]")] // Define a rota base: 'api/Clientes' 
     public class ClientesController : ControllerBase // Herda de ControllerBase (padrão para APIs) 
     { 
+        private readonly IClienteService _clienteService;
+
+        public ClientesController(IClienteService clienteService)
+        {
+            _clienteService = clienteService;
+        }
         // ---------------------------------------------------- 
         // 1. GET - Ler Recursos 
         // ---------------------------------------------------- 
@@ -16,9 +23,8 @@ namespace LojaApi.Controllers
         [HttpGet]  
         public ActionResult<List<Cliente>> GetAll() 
         { 
-            var clientes = ClienteRepository.GetAll(); 
             // 200 OK - Sucesso 
-            return Ok(clientes);  
+            return Ok(_clienteService.ObterTodos());  
         } 
  
         // Endpoint: GET api/Clientes/{id} 
@@ -26,7 +32,7 @@ namespace LojaApi.Controllers
         [HttpGet("{id}")]  
         public ActionResult<Cliente> GetById(int id) 
         { 
-            var cliente = ClienteRepository.GetById(id); 
+            var cliente = _clienteService.ObterPorId(id);
  
             if (cliente == null) 
             { 
@@ -52,7 +58,7 @@ namespace LojaApi.Controllers
                 return BadRequest("O nome do cliente é obrigatório.");  
             } 
  
-            var clienteCriado = ClienteRepository.Add(novoCliente); 
+            var clienteCriado = _clienteService.Adicionar(novoCliente); 
  
             // 201 Created - Novo recurso criado com sucesso 
             // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
@@ -73,7 +79,7 @@ namespace LojaApi.Controllers
                  return BadRequest("O nome do cliente é obrigatório para atualização.");  
             } 
              
-            var cliente = ClienteRepository.Update(id, clienteAtualizado); 
+            var cliente = _clienteService.Atualizar(id, clienteAtualizado); 
  
             if (cliente == null) 
             { 
@@ -93,7 +99,7 @@ namespace LojaApi.Controllers
         [HttpDelete("{id}")] 
         public IActionResult Delete(int id) // Usamos IActionResult pois não retornaremos um objeto Cliente 
         { 
-            var sucesso = ClienteRepository.Delete(id); 
+            var sucesso = _clienteService.Remover(id); 
  
             if (!sucesso) 
             { 

@@ -1,8 +1,9 @@
 using LojaApi.Entities;
+using LojaApi.Repositories.Interfaces;
 
 namespace LojaApi.Repositories
 {
-    public static class ClienteRepository // Usando 'static' para simplificar o acesso sem Injeção de Dependência 
+    public class ClienteRepository : IClienteRepository // Usando 'static' para simplificar o acesso sem Injeção de Dependência 
     {
         // Lista estática para SIMULAR o Banco de Dados 
         private static List<Cliente> _clientes = new List<Cliente>
@@ -17,20 +18,20 @@ namespace LojaApi.Repositories
         // Implementação dos métodos CRUD 
 
         // 1. Read (Ler Todos) 
-        public static List<Cliente> GetAll()
+        public List<Cliente> ObterTodos()
         {
             return _clientes;
         }
  
         // 2. Read (Ler por ID) 
-        public static Cliente? GetById(int id)
+        public Cliente? ObterPorId(int id)
         {
             // Retorna o primeiro cliente com o ID, ou null se não encontrar 
             return _clientes.FirstOrDefault(c => c.Id == id);
         }
 
         // 3. Create (Criar) 
-        public static Cliente Add(Cliente novoCliente)
+        public Cliente Adicionar(Cliente novoCliente)
         {
             novoCliente.Id = _nextId++; // Atribui o próximo ID 
             _clientes.Add(novoCliente);
@@ -38,7 +39,7 @@ namespace LojaApi.Repositories
         }
 
         // 4. Update (Substituir/Completo) 
-        public static Cliente? Update(int id, Cliente clienteAtualizado)
+        public Cliente? Atualizar(int id, Cliente clienteAtualizado)
         {
             var clienteExistente = _clientes.FirstOrDefault(c => c.Id == id);
 
@@ -56,7 +57,7 @@ namespace LojaApi.Repositories
         }
 
         // 5. Delete (Excluir) 
-        public static bool Delete(int id)
+        public bool Remover(int id)
         {
             var clienteParaDeletar = _clientes.FirstOrDefault(c => c.Id == id);
 

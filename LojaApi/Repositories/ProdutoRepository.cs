@@ -1,13 +1,14 @@
 using System;
 using LojaApi.Entities;
+using LojaApi.Repositories.Interfaces;
 
 namespace LojaApi.Repositories;
 
-public class ProdutoRepository
+public class ProdutoRepository : IProdutoRepository
 {
-    private static int _nextId = 2;
+    private int _nextId = 2;
 
-    private static List<Produto> _produtos = new List<Produto>
+    private List<Produto> _produtos = new List<Produto>
     {
         new Produto { Id = 1, Descricao = "Laranja", Valor = 1.59m, Estoque = 1000.00m },
         new Produto { Id = 2, Descricao = "Sabonete", Valor = 2.50m, Estoque = 500.00m },
@@ -15,24 +16,24 @@ public class ProdutoRepository
         new Produto { Id = 4, Descricao = "Bombom Lacta", Valor = 15.00m, Estoque = 99.00m }
     };
 
-    public static List<Produto> GetAll()
+    public List<Produto> ObterTodos()
     {
         return _produtos;
     }
 
-    public static Produto? GetById(int id)
+    public Produto? ObterPorId(int id)
     {
         return _produtos.FirstOrDefault(p => p.Id == id);
     }
 
-    public static Produto Add(Produto novoProduto)
+    public Produto Adicionar(Produto novoProduto)
     {
         novoProduto.Id = _nextId++;
         _produtos.Add(novoProduto);
         return novoProduto;
     }
     
-    public static Produto? Update(int id, Produto produtoAtualizado)
+    public Produto? Atualizar(int id, Produto produtoAtualizado)
     {
         var produtoExistente = _produtos.FirstOrDefault(p => p.Id == id);
 
@@ -48,7 +49,7 @@ public class ProdutoRepository
         return produtoExistente;
     }
 
-    public static bool Delete(int id)
+    public bool Remover(int id)
     {
         var produtoParaDeletar = _produtos.FirstOrDefault(p => p.Id == id);
 

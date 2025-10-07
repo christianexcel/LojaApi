@@ -1,6 +1,5 @@
 using LojaApi.Entities;
-using LojaApi.Repositories;
-using Microsoft.AspNetCore.Http;
+using LojaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LojaApi.Controllers
@@ -10,17 +9,24 @@ namespace LojaApi.Controllers
     public class ProdutosController : ControllerBase
     {
 
+        private readonly IProdutoService _produtoService;
+
+        public ProdutosController(IProdutoService produtoService)
+        {
+            _produtoService = produtoService;
+        }
+
         [HttpGet]
         public ActionResult<List<Produto>> GetAll()
         {
-            var produtos = ProdutoRepository.GetAll();
+            var produtos = _produtoService.ObterTodos();
             return Ok(produtos);
         }
 
         [HttpGet("{id}")]
         public ActionResult<Produto> GetById(int id)
         {
-            var produto = ProdutoRepository.GetById(id);
+            var produto = _produtoService.ObterPorId(id);
 
             if (produto == null)
             {
@@ -48,7 +54,7 @@ namespace LojaApi.Controllers
                 return BadRequest("O estoque não pode ser negativo");
             }
 
-            var produtoCriado = ProdutoRepository.Add(novoProduto);
+            var produtoCriado = _produtoService.Adicionar(novoProduto);
 
             return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, produtoCriado);
         } 
@@ -72,7 +78,7 @@ namespace LojaApi.Controllers
                 return BadRequest("O estoque não pode ser negativo");
             }
 
-            var produto = ProdutoRepository.Update(id, produtoAtualizado); 
+            var produto = _produtoService.Atualizar(id, produtoAtualizado); 
 
             if (produto == null) 
             { 
@@ -85,7 +91,7 @@ namespace LojaApi.Controllers
         [HttpDelete("{id}")] 
         public IActionResult Delete(int id)
         { 
-            var sucesso = ProdutoRepository.Delete(id); 
+            var sucesso = _produtoService.Remover(id); 
 
             if (!sucesso) 
             { 
