@@ -1,4 +1,3 @@
-// Services/ClienteService.cs
 using LojaApi.Entities;
 using LojaApi.Repositories.Interfaces;
 using LojaAPI.Services.Interfaces;
