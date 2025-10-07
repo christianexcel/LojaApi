@@ -16,7 +16,10 @@ namespace LojaApi.Services
 
         public List<Produto> ObterTodos()
         {
-            return _produtoRepository.ObterTodos().Where(c => c.Ativo).ToList();
+            return _produtoRepository
+                .ObterTodos()
+                .Where(c => c.Ativo)
+                .ToList();
         }
 
         public Produto? ObterPorId(int id)
@@ -30,7 +33,8 @@ namespace LojaApi.Services
             novoProduto.Descricao = novoProduto.Descricao;
             novoProduto.Estoque = novoProduto.Estoque;
             novoProduto.Valor = novoProduto.Valor;
-            
+            novoProduto.Ativo = novoProduto.Ativo;
+
             return _produtoRepository.Adicionar(novoProduto);
         }
 
