@@ -6,14 +6,14 @@ namespace LojaApi.Repositories
     public class ClienteRepository : IClienteRepository // Usando 'static' para simplificar o acesso sem Injeção de Dependência 
     {
         // Lista estática para SIMULAR o Banco de Dados 
-        private static List<Cliente> _clientes = new List<Cliente>
+        private List<Cliente> _clientes = new List<Cliente>
         {
             new Cliente { Id = 1, Nome = "Alice Silva", Email = "alice@mail.com", Ativo = true },
             new Cliente { Id = 2, Nome = "Bruno Costa", Email = "bruno@mail.com", Ativo = true },
             new Cliente { Id = 3, Nome = "Carlos Santos", Email = "carlos@mail.com", Ativo = false }
         };
 
-        private static int _nextId = 4; // Variável para gerenciar o próximo ID 
+        private int _nextId = 4; // Variável para gerenciar o próximo ID 
 
         // Implementação dos métodos CRUD 
 
