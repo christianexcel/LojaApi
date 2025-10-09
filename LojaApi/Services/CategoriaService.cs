@@ -5,7 +5,7 @@ using LojaApi.Services.Interfaces;
 
 namespace LojaApi.Services;
 
-public class CategoriaService : ICategoriaRepository
+public class CategoriaService : ICategoriaService
 {
     private readonly ICategoriaRepository _categoriaRepository;
 

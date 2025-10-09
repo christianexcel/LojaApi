@@ -10,7 +10,9 @@ public class CategoriaRepository : ICategoriaRepository
 
     public List<Categoria> _categorias = new List<Categoria>()
     {
-        new Categoria { Id = 1, Descricao = "Frutas", Ativo = true}
+        new Categoria { Id = 1, Descricao = "Frutas", Ativo = true},
+        new Categoria { Id = 2, Descricao = "Produtos de Limpeza", Ativo = true},
+        new Categoria { Id = 3, Descricao = "Doces", Ativo = true},
     };
 
     public List<Categoria> ObterTodos()
@@ -53,7 +55,7 @@ public class CategoriaRepository : ICategoriaRepository
 
     public bool Remover(int id)
     {
-        var categoriaParaDeletar = _categorias.FirstOrDefault(c => c.Id == id);
+        var categoriaParaDeletar = _categorias.FirstOrDefault(c => c.Id == id && c.Ativo == true);
         if (categoriaParaDeletar != null)
         {
             categoriaParaDeletar.Ativo = false;
