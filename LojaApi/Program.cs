@@ -1,8 +1,10 @@
+using LojaApi.Data;
 using LojaApi.Repositories;
 using LojaApi.Repositories.Interfaces;
 using LojaApi.Services;
 using LojaApi.Services.Interfaces;
 using LojaAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,12 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<LojaContext>(options =>
+    options.UseNpgsql(connectionString));
+
 builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddSingleton<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteDBRepository>();
+//builder.Services.AddSingleton<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoDBRepository>();
+//builder.Services.AddSingleton<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-builder.Services.AddSingleton<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaDBRepository>();
+//builder.Services.AddSingleton<ICategoriaRepository, CategoriaRepository>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

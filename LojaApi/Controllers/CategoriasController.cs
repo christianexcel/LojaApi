@@ -16,7 +16,7 @@ namespace LojaApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Cliente>> GetAll()
+        public ActionResult<List<Categoria>> GetAll()
         {
             return Ok(_categoriaService.ObterTodos());
         }
