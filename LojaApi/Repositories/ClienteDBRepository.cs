@@ -26,6 +26,7 @@ public class ClienteDBRepository : IClienteRepository
 
     public Cliente Adicionar(Cliente novoCliente)
     {
+        novoCliente.DataCadastro = DateTime.UtcNow;
         _context.Clientes.Add(novoCliente);
         _context.SaveChanges();
         return novoCliente;

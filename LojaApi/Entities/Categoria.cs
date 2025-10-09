@@ -8,7 +8,7 @@ namespace LojaApi.Entities;
 public class Categoria
 {
     [Key]
-    [Column("id_cliente")]
+    [Column("id_categoria")]
     public int Id { get; set; }
     [Column("descricao")]
     [Required]
