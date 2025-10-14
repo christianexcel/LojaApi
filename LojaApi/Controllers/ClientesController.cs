@@ -49,19 +49,19 @@ namespace LojaApi.Controllers
         // Endpoint: POST api/Clientes 
         [HttpPost]  
         public ActionResult<Cliente> Add(Cliente novoCliente)  
-        { 
-            // Validação simples (o ideal é fazer validações mais complexas) 
-            if (string.IsNullOrWhiteSpace(novoCliente.Nome)) 
-            { 
-                // 400 Bad Request - Erro no cliente (dados inválidos) 
-                return BadRequest("O nome do cliente é obrigatório.");  
-            } 
+        {
+            try
+            {
+                var clienteCriado = _clienteService.Adicionar(novoCliente); 
 
-            var clienteCriado = _clienteService.Adicionar(novoCliente); 
-
-            // 201 Created - Novo recurso criado com sucesso 
-            // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
-            return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, clienteCriado);  
+                // 201 Created - Novo recurso criado com sucesso 
+                // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
+                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, clienteCriado);  
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         } 
 
         // ---------------------------------------------------- 
@@ -71,23 +71,24 @@ namespace LojaApi.Controllers
         // Endpoint: PUT api/Clientes/{id} 
         [HttpPut("{id}")] 
         public ActionResult<Cliente> Update(int id, Cliente clienteAtualizado) 
-        { 
-            // Validação de entrada 
-            if (string.IsNullOrWhiteSpace(clienteAtualizado.Nome)) 
-            { 
-                return BadRequest("O nome do cliente é obrigatório para atualização.");  
-            } 
+        {
+            try
+            {
+                var cliente = _clienteService.Atualizar(id, clienteAtualizado); 
 
-            var cliente = _clienteService.Atualizar(id, clienteAtualizado); 
+                if (cliente == null) 
+                { 
+                    // 404 Not Found - Tentou atualizar algo que não existe 
+                    return NotFound(); 
+                } 
 
-            if (cliente == null) 
-            { 
-                // 404 Not Found - Tentou atualizar algo que não existe 
-                return NotFound(); 
-            } 
-
-            // 200 OK - Sucesso (Recurso substituído) 
-            return Ok(cliente);  
+                // 200 OK - Sucesso (Recurso substituído) 
+                return Ok(cliente);  
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         } 
 
         // ---------------------------------------------------- 

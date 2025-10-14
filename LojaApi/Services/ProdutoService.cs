@@ -7,17 +7,22 @@ namespace LojaApi.Services
     public class ProdutoService : IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
 
-        public ProdutoService(IProdutoRepository produtoRepository)
+        public ProdutoService(
+            IProdutoRepository produtoRepository,
+            ICategoriaRepository categoriaRepository
+        )
         {
             _produtoRepository = produtoRepository;
+            _categoriaRepository = categoriaRepository;
         }
 
         public List<Produto> ObterTodos()
         {
             return _produtoRepository
                 .ObterTodos()
-                .Where(c => c.Ativo)
+                .Where(p => p.Ativo && p.Estoque > 0)
                 .ToList();
         }
 
@@ -28,11 +33,16 @@ namespace LojaApi.Services
 
         public Produto Adicionar(Produto novoProduto)
         {
-            novoProduto.Id = novoProduto.Id;
-            novoProduto.Descricao = novoProduto.Descricao;
-            novoProduto.Estoque = novoProduto.Estoque;
-            novoProduto.Valor = novoProduto.Valor;
-            novoProduto.Ativo = novoProduto.Ativo;
+            var categoria = _categoriaRepository.ObterPorId(novoProduto.CategoriaId);
+            if (categoria == null)
+            {
+                throw new Exception("A categoria informada não existe");
+            }
+
+            if (categoria.Descricao.Equals("Eletrônicos", StringComparison.OrdinalIgnoreCase) && novoProduto.Valor < 50.00m)
+            {
+                throw new Exception("Produtos da categoria 'Eletrônicos' devem custar no mínimo R$50,00.");
+            }
 
             return _produtoRepository.Adicionar(novoProduto);
         }

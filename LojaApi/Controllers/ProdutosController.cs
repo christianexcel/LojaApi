@@ -39,53 +39,37 @@ namespace LojaApi.Controllers
         [HttpPost]
         public ActionResult<Produto> Add(Produto novoProduto)
         {
-            if (string.IsNullOrWhiteSpace(novoProduto.Descricao))
+            try
             {
-                return BadRequest("A descrição do produto é obrigatória.");
-            }
+                var produtoCriado = _produtoService.Adicionar(novoProduto);
 
-            if (Decimal.IsNegative(novoProduto.Valor))
+                return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, produtoCriado);    
+            } catch (Exception ex)
             {
-                return BadRequest("O valor não pode ser negativo");
+                return BadRequest(ex.Message);
             }
-
-            if (Decimal.IsNegative(novoProduto.Estoque))
-            {
-                return BadRequest("O estoque não pode ser negativo");
-            }
-
-            var produtoCriado = _produtoService.Adicionar(novoProduto);
-
-            return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, produtoCriado);
+            
         } 
         
 
         [HttpPut("{id}")] 
         public ActionResult<Produto> Update(int id, Produto produtoAtualizado) 
-        { 
-            if (string.IsNullOrWhiteSpace(produtoAtualizado.Descricao)) 
-            { 
-                return BadRequest("A descrição do produto é obrigatória para atualização.");  
-            } 
-
-            if (Decimal.IsNegative(produtoAtualizado.Valor))
+        {
+            try
             {
-                return BadRequest("O valor não pode ser negativo");
+                var produto = _produtoService.Atualizar(id, produtoAtualizado); 
+
+                if (produto == null) 
+                { 
+                    return NotFound(); 
+                } 
+
+                return Ok(produto);  
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            if (Decimal.IsNegative(produtoAtualizado.Estoque))
-            {
-                return BadRequest("O estoque não pode ser negativo");
-            }
-
-            var produto = _produtoService.Atualizar(id, produtoAtualizado); 
-
-            if (produto == null) 
-            { 
-                return NotFound(); 
-            } 
-
-            return Ok(produto);  
         } 
 
         [HttpDelete("{id}")] 
