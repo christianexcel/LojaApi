@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LojaApi.Entities;
 
@@ -17,5 +18,6 @@ public class Categoria
     [Column("ativo")]
     [Required]
     public bool Ativo { get; set; }
+    [JsonIgnore]
     public ICollection<Produto> Produtos { get; set; } = new List<Produto>();
 }

@@ -22,12 +22,15 @@ public class Produto
     [Column("estoque")]
     [Range(0, 9999, ErrorMessage = "O estoque deve ser entre 0 e 9999.")]
     public Decimal Estoque { get; set; } = Decimal.Zero;
+
     [Column("id_categoria")]
     [Required(ErrorMessage = "O ID categoria é obrigatório.")]
     public int CategoriaId { get; set; }
+
     [ForeignKey("CategoriaId")]
     [JsonIgnore]
     public Categoria? Categoria { get; set; }
+    
     [Column("ativo")]
     [Required]
     public bool Ativo { get; set; }
