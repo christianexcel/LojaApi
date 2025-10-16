@@ -1,4 +1,5 @@
 using LojaApi.Entities;
+using LojaApi.Infra.DTOs;
 using LojaApi.Repositories.Interfaces;
 using LojaAPI.Services.Interfaces;
 
@@ -31,9 +32,9 @@ namespace LojaApi.Services
             return _produtoRepository.ObterPorId(id);
         }
 
-        public Produto Adicionar(Produto novoProduto)
+        public ProdutoDto Adicionar(CriarProdutoDto produtoDto)
         {
-            var categoria = _categoriaRepository.ObterPorId(novoProduto.CategoriaId);
+            /*var categoria = _categoriaRepository.ObterPorId(novoProduto.CategoriaId);
             if (categoria == null)
             {
                 throw new Exception("A categoria informada não existe");
@@ -42,9 +43,55 @@ namespace LojaApi.Services
             if (categoria.Descricao.Equals("Eletrônicos", StringComparison.OrdinalIgnoreCase) && novoProduto.Valor < 50.00m)
             {
                 throw new Exception("Produtos da categoria 'Eletrônicos' devem custar no mínimo R$50,00.");
-            }
+            }*/
 
-            return _produtoRepository.Adicionar(novoProduto);
+            var novoProduto = new Produto
+            {
+                Descricao = produtoDto.Descricao,
+                Valor = produtoDto.Valor,
+                Ativo = produtoDto.Ativo,
+                Estoque = produtoDto.Estoque,
+                CategoriaId = produtoDto.CategoriaId,
+                Categoria = produtoDto.Categoria != null ? new Categoria
+                {
+                    Descricao = produtoDto.Categoria.Descricao,
+                    Ativo = produtoDto.Categoria.Ativo
+                } : null
+            };
+
+            var produtoRetorno = _produtoRepository.Adicionar(novoProduto);
+
+            return new ProdutoDto
+            {
+                Id = produtoRetorno.Id,
+                Descricao = produtoRetorno.Descricao,
+                Valor = produtoRetorno.Valor,
+                Estoque = produtoRetorno.Estoque,
+                Ativo = produtoRetorno.Ativo,
+                CategoriaId = produtoRetorno.CategoriaId
+            };
+        }
+
+        public ProdutoDetalhadoDto? ObterDetalhesPorId(int id)
+        {
+            var produto = _produtoRepository.ObterPorId(id);
+            if (produto == null) return null;
+
+            return new ProdutoDetalhadoDto
+            {
+                Id = produto.Id,
+                Descricao = produto.Descricao,
+                Valor = produto.Valor,
+                Estoque = produto.Estoque,
+                Ativo = produto.Ativo,
+                CategoriaId = produto.CategoriaId,
+                Categoria = produto.Categoria != null ? new CategoriaDto
+                {
+                    Id = produto.Categoria.Id,
+                    Descricao = produto.Categoria.Descricao,
+                    Ativo = produto.Categoria.Ativo
+                } : null
+            };
         }
 
         public Produto? Atualizar(int id, Produto produtoAtualizado)

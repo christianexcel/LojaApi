@@ -1,4 +1,5 @@
-using LojaApi.Entities; 
+using LojaApi.Entities;
+using LojaApi.Infra.DTOs;
 using LojaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc; 
 
@@ -29,18 +30,18 @@ namespace LojaApi.Controllers
         // Endpoint: GET api/Clientes/{id} 
         // O {id} é um parâmetro de rota 
         [HttpGet("{id}")]  
-        public ActionResult<Cliente> GetById(int id) 
+        public ActionResult<ClienteDetalhadoDto> GetById(int id) 
         { 
-            var cliente = _clienteService.ObterPorId(id);
+            var clienteDto = _clienteService.ObterDetalhesPorId(id);
 
-            if (cliente == null) 
+            if (clienteDto == null) 
             { 
                 // 404 Not Found - Recurso não encontrado 
                 return NotFound(); 
             } 
 
             // 200 OK - Sucesso 
-            return Ok(cliente);  
+            return Ok(clienteDto);  
         } 
 
         // ---------------------------------------------------- 
@@ -48,15 +49,16 @@ namespace LojaApi.Controllers
         // ----------------------------------------------------          
         // Endpoint: POST api/Clientes 
         [HttpPost]  
-        public ActionResult<Cliente> Add(Cliente novoCliente)  
+        public ActionResult<Cliente> Add(CriarClienteDto clienteDto)  
         {
             try
             {
-                var clienteCriado = _clienteService.Adicionar(novoCliente); 
+                var clienteCriado = _clienteService.Adicionar(clienteDto);
+                var dtoRetorno = _clienteService.ObterDetalhesPorId(clienteCriado.Id);
 
                 // 201 Created - Novo recurso criado com sucesso 
                 // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
-                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, clienteCriado);  
+                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, dtoRetorno);  
             }
             catch (Exception ex)
             {

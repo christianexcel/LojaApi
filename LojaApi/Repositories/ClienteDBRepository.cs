@@ -2,6 +2,7 @@ using System;
 using LojaApi.Data;
 using LojaApi.Entities;
 using LojaApi.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LojaApi.Repositories;
 
@@ -16,12 +17,15 @@ public class ClienteDBRepository : IClienteRepository
 
     public List<Cliente> ObterTodos()
     {
-        return _context.Clientes.ToList();
+        return _context.Clientes
+            .ToList();
     }
 
     public Cliente? ObterPorId(int id)
     {
-        return _context.Clientes.FirstOrDefault(c => c.Id == id);
+        return _context.Clientes
+            .Include(c => c.Endereco)
+            .FirstOrDefault(c => c.Id == id);
     }
 
     public Cliente Adicionar(Cliente novoCliente)
