@@ -18,7 +18,7 @@ public class ProdutoDBRepository : IProdutoRepository
     public List<Produto> ObterTodos()
     {
         return _context.Produtos
-            .Include(p => p.Categoria)
+            //.Include(p => p.Categoria)
             .ToList();
     }
 
