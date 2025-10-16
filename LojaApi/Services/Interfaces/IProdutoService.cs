@@ -7,7 +7,7 @@ public interface IProdutoService
 {
     List<Produto> ObterTodos();
     Produto? ObterPorId(int id);
-    Produto Adicionar(CriarProdutoDto produtoDto);
+    ProdutoDto Adicionar(CriarProdutoDto produtoDto);
     Produto? Atualizar(int id, Produto produtoAtualizado);
     ProdutoDetalhadoDto? ObterDetalhesPorId(int id);
 

@@ -32,7 +32,7 @@ namespace LojaApi.Services
             return _produtoRepository.ObterPorId(id);
         }
 
-        public Produto Adicionar(CriarProdutoDto produtoDto)
+        public ProdutoDto Adicionar(CriarProdutoDto produtoDto)
         {
             /*var categoria = _categoriaRepository.ObterPorId(novoProduto.CategoriaId);
             if (categoria == null)
@@ -59,7 +59,17 @@ namespace LojaApi.Services
                 } : null
             };
 
-            return _produtoRepository.Adicionar(novoProduto);
+            var produtoRetorno = _produtoRepository.Adicionar(novoProduto);
+
+            return new ProdutoDto
+            {
+                Id = produtoRetorno.Id,
+                Descricao = produtoRetorno.Descricao,
+                Valor = produtoRetorno.Valor,
+                Estoque = produtoRetorno.Estoque,
+                Ativo = produtoRetorno.Ativo,
+                CategoriaId = produtoRetorno.CategoriaId
+            };
         }
 
         public ProdutoDetalhadoDto? ObterDetalhesPorId(int id)
