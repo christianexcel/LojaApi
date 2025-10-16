@@ -23,5 +23,6 @@ namespace LojaApi.Entities
         public bool Ativo { get; set; }
         [Column("data_cadastro")]
         public DateTime DataCadastro { get; set; }
+        public Endereco? Endereco { get; set; }
     }
 }

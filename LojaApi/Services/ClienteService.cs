@@ -1,4 +1,5 @@
 using LojaApi.Entities;
+using LojaApi.Infra.DTOs;
 using LojaApi.Repositories.Interfaces;
 using LojaAPI.Services.Interfaces;
 
@@ -26,11 +27,44 @@ public class ClienteService : IClienteService
         return _clienteRepository.ObterPorId(id);
     }
 
-    public Cliente Adicionar(Cliente novoCliente)
+    public Cliente Adicionar(CriarClienteDto clienteDto)
     {
-        novoCliente.Nome = novoCliente.Nome.ToUpper();
-        novoCliente.Ativo = true;
+        var novoCliente = new Cliente
+        {
+            Nome = clienteDto.Nome.ToUpper(),
+            Email = clienteDto.Email,
+            Ativo = true,
+            DataCadastro = DateTime.UtcNow,
+            Endereco = clienteDto.Endereco != null ? new Endereco
+            {
+                Rua = clienteDto.Endereco.Rua,
+                Cidade = clienteDto.Endereco.Cidade,
+                Estado = clienteDto.Endereco.Estado,
+                Cep = clienteDto.Endereco.Cep
+            } : null
+        };
         return _clienteRepository.Adicionar(novoCliente);
+    }
+
+    public ClienteDetalhadoDto? ObterDetalhesPorId(int id)
+    {
+        var cliente = _clienteRepository.ObterPorId(id);
+        if (cliente == null) return null;
+
+        return new ClienteDetalhadoDto
+        {
+            Id = cliente.Id,
+            Nome = cliente.Nome,
+            Email = cliente.Email,
+            Ativo = cliente.Ativo,
+            Endereco = cliente.Endereco != null ? new EnderecoDto
+            {
+                Rua = cliente.Endereco.Rua,
+                Cidade = cliente.Endereco.Cidade,
+                Estado = cliente.Endereco.Estado,
+                Cep = cliente.Endereco.Cep
+            } : null
+        };
     }
 
     public Cliente? Atualizar(int id, Cliente clienteAtualizado)
