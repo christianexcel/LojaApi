@@ -38,14 +38,14 @@ namespace LojaApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Produto> Add(CriarProdutoDto produtoDto)
+        public ActionResult<ProdutoDto> Add(CriarProdutoDto produtoDto)
         {
             try
             {
                 var produtoCriado = _produtoService.Adicionar(produtoDto);
-                var dtoRetorno = _produtoService.ObterDetalhesPorId(produtoCriado.Id);
+                //var dtoRetorno = _produtoService.ObterDetalhesPorId(produtoCriado.Id);
 
-                return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, dtoRetorno);    
+                return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, produtoCriado);    
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
