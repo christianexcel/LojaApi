@@ -1,7 +1,7 @@
 using LojaApi.Entities;
-using LojaApi.Repositories.Interfaces;
+using LojaApi.Infra.Repositories.Interfaces;
 
-namespace LojaApi.Repositories
+namespace LojaApi.Infra.Repositories
 {
     public class ClienteRepository : IClienteRepository // Usando 'static' para simplificar o acesso sem Injeção de Dependência 
     {

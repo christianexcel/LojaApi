@@ -1,10 +1,10 @@
 using System;
 using LojaApi.Data;
 using LojaApi.Entities;
-using LojaApi.Repositories.Interfaces;
+using LojaApi.Infra.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LojaApi.Repositories;
+namespace LojaApi.Infra.Repositories;
 
 public class CategoriaDBRepository : ICategoriaRepository
 {

@@ -1,6 +1,6 @@
 using LojaApi.Entities;
 
-namespace LojaApi.Repositories.Interfaces;
+namespace LojaApi.Infra.Repositories.Interfaces;
 
 public interface IClienteRepository
 {

@@ -1,6 +1,6 @@
 using LojaApi.Data;
-using LojaApi.Repositories;
-using LojaApi.Repositories.Interfaces;
+using LojaApi.Infra.Repositories;
+using LojaApi.Infra.Repositories.Interfaces;
 using LojaApi.Services;
 using LojaApi.Services.Interfaces;
 using LojaAPI.Services.Interfaces;

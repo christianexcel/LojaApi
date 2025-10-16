@@ -1,6 +1,6 @@
 using LojaApi.Entities;
 using LojaApi.Infra.DTOs;
-using LojaApi.Repositories.Interfaces;
+using LojaApi.Infra.Repositories.Interfaces;
 using LojaAPI.Services.Interfaces;
 
 namespace LojaApi.Services;
