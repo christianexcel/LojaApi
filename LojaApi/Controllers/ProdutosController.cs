@@ -1,4 +1,5 @@
 using LojaApi.Entities;
+using LojaApi.Infra.DTOs;
 using LojaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +25,9 @@ namespace LojaApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Produto> GetById(int id)
+        public ActionResult<ProdutoDetalhadoDto> GetById(int id)
         {
-            var produto = _produtoService.ObterPorId(id);
+            var produto = _produtoService.ObterDetalhesPorId(id);
 
             if (produto == null)
             {
@@ -37,13 +38,14 @@ namespace LojaApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Produto> Add(Produto novoProduto)
+        public ActionResult<Produto> Add(CriarProdutoDto produtoDto)
         {
             try
             {
-                var produtoCriado = _produtoService.Adicionar(novoProduto);
+                var produtoCriado = _produtoService.Adicionar(produtoDto);
+                var dtoRetorno = _produtoService.ObterDetalhesPorId(produtoCriado.Id);
 
-                return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, produtoCriado);    
+                return CreatedAtAction(nameof(GetById), new { id = produtoCriado.Id }, dtoRetorno);    
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);

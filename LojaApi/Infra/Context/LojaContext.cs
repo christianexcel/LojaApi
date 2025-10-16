@@ -45,6 +45,33 @@ public class LojaContext : DbContext
             .HasOne(c => c.Endereco)
             .WithOne(e => e.Cliente)
             .HasForeignKey<Endereco>(e => e.Id);
+
+        modelBuilder.Entity<Produto>(entity =>
+        {
+            entity.ToTable("TB_PRODUTOS");
+
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Id).HasColumnName("id_produto");
+            entity.Property(p => p.CategoriaId).HasColumnName("id_categoria");
+            entity.Property(p => p.Descricao).HasColumnName("descricao").HasMaxLength(150).IsRequired();
+            entity.Property(p => p.Estoque).HasColumnName("estoque").HasPrecision(2).IsRequired();
+            entity.Property(p => p.Valor).HasColumnName("valor").HasPrecision(2).IsRequired();
+            entity.Property(p => p.Ativo).HasColumnName("ativo").IsRequired();
+        });
+
+        modelBuilder.Entity<Categoria>(entity =>
+        {
+            entity.ToTable("TB_CATEGORIAS");
+            entity.HasKey(c => c.Id);
+            entity.Property(c => c.Id).HasColumnName("id_categoria");
+            entity.Property(c => c.Descricao).HasColumnName("descricao").HasMaxLength(100).IsRequired();
+            entity.Property(c => c.Ativo).HasColumnName("ativo").IsRequired();
+        });
+
+        modelBuilder.Entity<Produto>()
+            .HasOne(p => p.Categoria)
+            .WithMany(c => c.Produtos)
+            .HasForeignKey(p => p.CategoriaId);
     }
 
 }
