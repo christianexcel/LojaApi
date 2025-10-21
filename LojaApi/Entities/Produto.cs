@@ -13,4 +13,5 @@ public class Produto
     public int CategoriaId { get; set; }
     public Categoria? Categoria { get; set; }
     public bool Ativo { get; set; }
+    public ICollection<PedidoProduto> PedidoProdutos { get; set; } = new List<PedidoProduto>();
 }

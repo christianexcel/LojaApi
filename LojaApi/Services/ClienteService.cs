@@ -1,3 +1,4 @@
+using AutoMapper;
 using LojaApi.Entities;
 using LojaApi.Infra.DTOs;
 using LojaApi.Infra.Repositories.Interfaces;
@@ -8,10 +9,12 @@ namespace LojaApi.Services;
 public class ClienteService : IClienteService
 {
     private readonly IClienteRepository _clienteRepository;
+    private readonly IMapper _mapper;
 
-    public ClienteService(IClienteRepository clienteRepository)
+    public ClienteService(IClienteRepository clienteRepository, IMapper mapper)
     {
         _clienteRepository = clienteRepository;
+        _mapper = mapper;
     }
 
     public List<Cliente> ObterTodos()
@@ -43,7 +46,9 @@ public class ClienteService : IClienteService
                 Cep = clienteDto.Endereco.Cep
             } : null
         };
-        return _clienteRepository.Adicionar(novoCliente);
+        var clienteAdicionado = _clienteRepository.Adicionar(novoCliente);
+
+        return _clienteRepository.ObterPorId(clienteAdicionado.Id) ?? clienteAdicionado;
     }
 
     public ClienteDetalhadoDto? ObterDetalhesPorId(int id)
@@ -51,7 +56,9 @@ public class ClienteService : IClienteService
         var cliente = _clienteRepository.ObterPorId(id);
         if (cliente == null) return null;
 
-        return new ClienteDetalhadoDto
+        return _mapper.Map<ClienteDetalhadoDto>(cliente);
+
+        /*return new ClienteDetalhadoDto
         {
             Id = cliente.Id,
             Nome = cliente.Nome,
@@ -64,7 +71,7 @@ public class ClienteService : IClienteService
                 Estado = cliente.Endereco.Estado,
                 Cep = cliente.Endereco.Cep
             } : null
-        };
+        };*/
     }
 
     public Cliente? Atualizar(int id, Cliente clienteAtualizado)

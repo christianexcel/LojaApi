@@ -49,7 +49,7 @@ namespace LojaApi.Controllers
         // ----------------------------------------------------          
         // Endpoint: POST api/Clientes 
         [HttpPost]  
-        public ActionResult<Cliente> Add(CriarClienteDto clienteDto)  
+        public ActionResult<ClienteDetalhadoDto> Add(CriarClienteDto clienteDto)  
         {
             try
             {
@@ -58,7 +58,7 @@ namespace LojaApi.Controllers
 
                 // 201 Created - Novo recurso criado com sucesso 
                 // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
-                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, dtoRetorno);  
+                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, dtoRetorno);
             }
             catch (Exception ex)
             {

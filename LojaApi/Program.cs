@@ -1,6 +1,7 @@
 using LojaApi.Data;
 using LojaApi.Infra.Repositories;
 using LojaApi.Infra.Repositories.Interfaces;
+using LojaApi.Mapping;
 using LojaApi.Services;
 using LojaApi.Services.Interfaces;
 using LojaAPI.Services.Interfaces;
@@ -25,6 +26,10 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoDBRepository>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaDBRepository>();
 //builder.Services.AddSingleton<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IPedidoRepository, PedidoDBRepository>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
