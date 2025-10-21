@@ -32,6 +32,23 @@ public class ClienteService : IClienteService
 
     public Cliente Adicionar(CriarClienteDto clienteDto)
     {
+        /*var novoCliente = new ClienteEndereco
+        {
+            Cliente = new Cliente
+            {
+                Nome = clienteDto.Nome.ToUpper(),
+                Email = clienteDto.Email,
+                Ativo = true,
+                DataCadastro = DateTime.UtcNow
+            },
+            Endereco = clienteDto.Endereco != null ? new Endereco
+            {
+                Rua = clienteDto.Endereco.Rua,
+                Cidade = clienteDto.Endereco.Cidade,
+                Estado = clienteDto.Endereco.Estado,
+                Cep = clienteDto.Endereco.Cep
+            } : null
+        };*/
         var novoCliente = new Cliente
         {
             Nome = clienteDto.Nome.ToUpper(),
@@ -46,7 +63,7 @@ public class ClienteService : IClienteService
                 Cep = clienteDto.Endereco.Cep
             } : null
         };
-        var clienteAdicionado = _clienteRepository.Adicionar(novoCliente);
+        var clienteAdicionado = _clienteRepository.Adicionar(_mapper.Map<Cliente>(novoCliente));
 
         return _clienteRepository.ObterPorId(clienteAdicionado.Id) ?? clienteAdicionado;
     }

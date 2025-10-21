@@ -18,12 +18,14 @@ public class ClienteDBRepository : IClienteRepository
     public List<Cliente> ObterTodos()
     {
         return _context.Clientes
+            .Include(c => c.Endereco)
             .ToList();
     }
 
     public Cliente? ObterPorId(int id)
     {
         return _context.Clientes
+            //.Include(c => c.Endereco)
             .Include(c => c.Endereco)
             .FirstOrDefault(c => c.Id == id);
     }

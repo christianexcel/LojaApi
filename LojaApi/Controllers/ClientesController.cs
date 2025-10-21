@@ -49,7 +49,7 @@ namespace LojaApi.Controllers
         // ----------------------------------------------------          
         // Endpoint: POST api/Clientes 
         [HttpPost]  
-        public ActionResult<ClienteDetalhadoDto> Add(CriarClienteDto clienteDto)  
+        public ActionResult<Cliente> Add(CriarClienteDto clienteDto)  
         {
             try
             {

@@ -4,5 +4,5 @@ namespace LojaApi.Infra.DTOs;
 
 public class CategoriaDetalhadoDto
 {
-    
+
 }

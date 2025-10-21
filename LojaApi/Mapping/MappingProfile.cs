@@ -20,19 +20,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.NomeCliente, opt => opt.MapFrom(src => src.Cliente != null ? src.Cliente.Nome : string.Empty))
             .ForMember(dest => dest.Itens, opt => opt.MapFrom(src => src.PedidoProdutos));
 
-        CreateMap<ClienteEndereco, EnderecoClienteDto>()
-            .ForMember(dest => dest.EnderecoId, opt => opt.MapFrom(src => src.EnderecoId))
-            .ForMember(dest => dest.Rua, opt => opt.MapFrom(src => src.Endereco != null ? src.Endereco.Rua : string.Empty))
-            .ForMember(dest => dest.Cidade, opt => opt.MapFrom(src => src.Endereco != null ? src.Endereco.Cidade : string.Empty))
-            .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Endereco != null ? src.Endereco.Estado : string.Empty))
-            .ForMember(dest => dest.Cep, opt => opt.MapFrom(src => src.Endereco != null ? src.Endereco.Cep : string.Empty));
-
         CreateMap<Cliente, ClienteDetalhadoDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Nome))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
             .ForMember(dest => dest.Ativo, opt => opt.MapFrom(src => src.Ativo))
             .ForMember(dest => dest.Endereco, opt => opt.MapFrom(src => src.Endereco != null ? src.Endereco : null));
+
+        CreateMap<Endereco, EnderecoDto>();
 
         CreateMap<Produto, ProdutoResumoDto>();
     }
