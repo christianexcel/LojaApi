@@ -17,12 +17,14 @@ public class ClienteService : IClienteService
         _mapper = mapper;
     }
 
-    public List<Cliente> ObterTodos()
+    public List<ClienteDetalhadoDto> ObterTodos()
     {
-        return _clienteRepository
+        var clientes = _clienteRepository
             .ObterTodos()
             .Where(c => c.Ativo)
             .ToList();
+
+        return _mapper.Map<List<ClienteDetalhadoDto>>(clientes);
     }
 
     public Cliente? ObterPorId(int id)
@@ -55,13 +57,7 @@ public class ClienteService : IClienteService
             Email = clienteDto.Email,
             Ativo = true,
             DataCadastro = DateTime.UtcNow,
-            Endereco = clienteDto.Endereco != null ? new Endereco
-            {
-                Rua = clienteDto.Endereco.Rua,
-                Cidade = clienteDto.Endereco.Cidade,
-                Estado = clienteDto.Endereco.Estado,
-                Cep = clienteDto.Endereco.Cep
-            } : null
+            Endereco = _mapper.Map<Endereco>(clienteDto.Endereco)
         };
         var clienteAdicionado = _clienteRepository.Adicionar(_mapper.Map<Cliente>(novoCliente));
 
