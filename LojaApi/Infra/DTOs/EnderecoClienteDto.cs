@@ -1,14 +1,13 @@
 using System;
-using System.Text.Json.Serialization;
 
-namespace LojaApi.Entities;
+namespace LojaApi.Infra.DTOs;
 
-public class Endereco
+public class EnderecoClienteDto
 {
-    public int Id { get; set; }
+    public int EnderecoId { get; set; }
     public string Rua { get; set; } = string.Empty;
     public string Cidade { get; set; } = string.Empty;
     public string Estado { get; set; } = string.Empty;
     public string Cep { get; set; } = string.Empty;
-    public Cliente? Cliente { get; set; }
+    
 }

@@ -8,8 +8,6 @@ namespace LojaApi.Infra.DTOs;
 
 public class CriarProdutoDto
 {
-    [Key]
-    [Column("id_produto")]
     public int Id { get; set; }
     [Required(ErrorMessage = "O nome do produto é obrigatório.")]
     [StringLength(150, MinimumLength = 3, ErrorMessage = "O nome deve ter entre 3 e 150 caracteres.")]

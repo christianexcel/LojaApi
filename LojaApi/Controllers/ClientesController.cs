@@ -21,7 +21,7 @@ namespace LojaApi.Controllers
 
         // Endpoint: GET api/Clientes 
         [HttpGet]  
-        public ActionResult<List<Cliente>> GetAll() 
+        public ActionResult<List<ClienteDetalhadoDto>> GetAll() 
         { 
             // 200 OK - Sucesso 
             return Ok(_clienteService.ObterTodos());  
@@ -49,7 +49,7 @@ namespace LojaApi.Controllers
         // ----------------------------------------------------          
         // Endpoint: POST api/Clientes 
         [HttpPost]  
-        public ActionResult<Cliente> Add(CriarClienteDto clienteDto)  
+        public ActionResult<ClienteDetalhadoDto> Add(CriarClienteDto clienteDto)  
         {
             try
             {
@@ -58,7 +58,7 @@ namespace LojaApi.Controllers
 
                 // 201 Created - Novo recurso criado com sucesso 
                 // Retorna o recurso criado e a URL para acessá-lo (boa prática REST) 
-                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, dtoRetorno);  
+                return CreatedAtAction(nameof(GetById), new { id = clienteCriado.Id }, dtoRetorno);
             }
             catch (Exception ex)
             {

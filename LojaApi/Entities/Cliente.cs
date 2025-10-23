@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LojaApi.Entities
 {
-    [Table("TB_CLIENTES")]
     public class Cliente
     {
         public int Id { get; set; }

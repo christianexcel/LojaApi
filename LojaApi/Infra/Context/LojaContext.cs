@@ -15,6 +15,8 @@ public class LojaContext : DbContext
     public DbSet<Endereco> Enderecos { get; set; }
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<Categoria> Categorias { get; set; }
+    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<PedidoProduto> PedidosProdutos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,10 +70,74 @@ public class LojaContext : DbContext
             entity.Property(c => c.Ativo).HasColumnName("ativo").IsRequired();
         });
 
-        modelBuilder.Entity<Produto>()
-            .HasOne(p => p.Categoria)
-            .WithMany(c => c.Produtos)
-            .HasForeignKey(p => p.CategoriaId);
-    }
+        modelBuilder.Entity<Produto>(entity =>
+        {
+            entity.ToTable("TB_PRODUTOS");
 
+            entity.HasKey(p => p.Id);
+
+            entity.Property(p => p.Id)
+                    .HasColumnName("id_produto");
+
+            entity.Property(p => p.Descricao)
+                    .HasColumnName("descricao")
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+            entity.Property(p => p.Valor)
+                    .HasColumnName("valor")
+                    .IsRequired()
+                    .HasColumnType("decimal(10, 2)");
+
+            entity.Property(p => p.Estoque)
+                    .HasColumnName("estoque");
+
+            entity.Property(p => p.CategoriaId)
+                    .HasColumnName("id_categoria")
+                    .IsRequired();
+        });
+
+        modelBuilder.Entity<Pedido>(entity =>
+        {
+            entity.ToTable("TB_PEDIDOS");
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Id).HasColumnName("id_pedido");
+            entity.Property(p => p.DataPedido).HasColumnName("data_pedido");
+            entity.Property(p => p.ValorTotal).HasColumnName("valor_total").HasColumnType("decimal(10, 2)");
+            entity.Property(p => p.ClienteId).HasColumnName("id_cliente");
+        });
+
+        modelBuilder.Entity<PedidoProduto>(entity =>
+        {
+            entity.ToTable("TB_PEDIDOS_PRODUTOS");
+            entity.HasKey(pp => new { pp.PedidoId, pp.ProdutoId });
+            entity.Property(pp => pp.PedidoId).HasColumnName("id_pedido");
+            entity.Property(pp => pp.ProdutoId).HasColumnName("id_produto");
+            entity.Property(pp => pp.Quantidade).HasColumnName("quantidade");
+        });
+
+        #region Relacionamentos
+        modelBuilder.Entity<Cliente>()
+            .HasOne(c => c.Endereco)
+            .WithOne(e => e.Cliente)
+            .HasForeignKey<Endereco>(e => e.Id); 
+
+        modelBuilder.Entity<Categoria>()
+            .HasMany(c => c.Produtos)
+            .WithOne(p => p.Categoria)
+            .HasForeignKey(c => c.CategoriaId);
+
+        modelBuilder.Entity<Produto>()
+            .HasMany(p => p.PedidoProdutos)
+            .WithOne(pp => pp.Produto)
+            .HasForeignKey(pp => pp.ProdutoId)
+            .HasConstraintName("fk_produto");
+
+        modelBuilder.Entity<Pedido>()
+            .HasMany(p => p.PedidoProdutos)
+            .WithOne(pp => pp.Pedido)
+            .HasForeignKey(pp => pp.PedidoId)
+            .HasConstraintName("fk_pedido");
+        #endregion
+    }
 }

@@ -5,7 +5,7 @@ namespace LojaAPI.Services.Interfaces;
 
 public interface IClienteService
 {
-    List<Cliente> ObterTodos();
+    List<ClienteDetalhadoDto> ObterTodos();
     Cliente? ObterPorId(int id);
     Cliente Adicionar(CriarClienteDto clienteDto);
     Cliente? Atualizar(int id, Cliente clienteAtualizado);

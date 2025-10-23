@@ -1,4 +1,6 @@
 using System;
+using System.Text.Json.Serialization;
+using LojaApi.Entities;
 
 namespace LojaApi.Infra.DTOs;
 
